@@ -1,6 +1,6 @@
 import asyncio
 
-from hardware.async2023 import segments
+from hardware.inputs import segments
 
 
 class Segmented:

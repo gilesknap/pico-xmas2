@@ -1,6 +1,7 @@
 import asyncio
 
-from hardware.async2023 import green_button, onboard_led, red_button, red_led
+from hardware.inputs import green_button, red_button
+from hardware.outputs import big_red_led, onboard_led
 
 # global values shared by the event handlers
 MODE = 0  # 0 = solid, 1 = blinking
@@ -34,17 +35,17 @@ def switch_enabled(button):
 # flags have changed
 def change_leds():
     onboard_led.stop()
-    red_led.stop()
+    big_red_led.stop()
     if ENABLED:
         if MODE == 1:
             onboard_led.start(period_ms=500)
-            red_led.start(period_ms=300)
+            big_red_led.start(period_ms=300)
         else:
             onboard_led.on()
-            red_led.on()
+            big_red_led.on()
     else:
         onboard_led.off()
-        red_led.off()
+        big_red_led.off()
 
 
 # main function must be async to use asyncio features.

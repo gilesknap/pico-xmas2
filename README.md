@@ -1,14 +1,18 @@
-# pico-xmas
-giles' projects for the RaspberryPi Pico from the XMas Advent Calendar 2022.
+# pico-xmas 2023 Alternative Advent Calendar Project
 
-**Now with updates for the 2023 calendar 'Let it Glow'**
-See https://thepihut.com/pages/maker-advent-2023-guides for the 2023 let it glow
-projects.
+giles' final project for the RaspberryPi Pico from the XMas Advent
+Calendar 2023.
 
-See https://thepihut.com/pages/maker-advent-2022-guides for details of the
-2022 projects.
+This one project endeavours to include all of the components from the
+2023 PiHut XMas Advent Calendar.
+
+See [The PiHut Calendar Information](https://thepihut.com/pages/maker-advent-2023-guides)
+
 
 ## Setup
+
+
+
 Note to make this work on linux requires:
 ```bash
 sudo adduser <your_user_name> dialout
@@ -18,10 +22,9 @@ Followed by a reboot (logout is not enough). This group membership gives your
 user access to the USB serial port that the PICO uses to communicate with the
 host.
 
-## Install MicroPython
+## Install MicroPython on the Pico
 
-My 2023 RPI Pico H came without microPython installed. To install it without
-getting involved with Thonny I used the following steps:
+To install MicroPython without using Thonny I used the following steps:
 
 Go here and download the latest UF2 file:
 https://micropython.org/download/RPI_PICO/
@@ -66,9 +69,3 @@ it does not use the Hard Reset function from 'All Commands' on the
 vscode status bar.
 
 ![image](https://user-images.githubusercontent.com/964827/205357295-423a5b94-c466-457b-9a7d-2a4a2993d984.png)
-
-I've now broken the README up into the the two separate years:
-
-- [2022 The 12 Projects of Codemas](README2022.md)
-- [2023 Let it Glow](README2023.md)
-

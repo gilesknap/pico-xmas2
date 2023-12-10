@@ -1,8 +1,7 @@
 import asyncio
 
-import pico_utils.grb_colours as grb
-import pico_utils.rgb_colours as rgb
-from hardware.inputs import dips, environment, red_button, slider
+import modes.mode1 as mode1
+from hardware.inputs import dips, environment, green_button, red_button, slider
 from hardware.outputs import (
     big_red_led,
     rgb_led1,
@@ -11,54 +10,67 @@ from hardware.outputs import (
     rgb_strand,
     segmented,
 )
-from pico_utils.faders import brightness, descend
 
+# list all outputs we want to control in stop and poll functions
+outputs = [rgb_led1, rgb_led2, rgb_ring, rgb_strand, segmented]
+
+# global to track if the program is running
 running = True
 
 
 def stop(_):
-    global running
-    running = False
-    rgb_led1.stop()
-    rgb_led2.stop()
-    segmented.stop()
+    for output in outputs:
+        # using duck typing here - really ought to create a class hierarchy!
+        # (but type checking in MicroPython is a bit limited so let's leave it)
+        output.stop()
+
+
+# global poll function - default poll behaviour for most modes
+# updates the interval from the slider
+def poll():
+    val = int(slider.value * 250)
+    for output in outputs:
+        # duck typing again
+        output.period_ms = val
+    return val
+
+
+# arrays of go, tick and stop functions for each mode]
+gos = [mode1.go, mode1.go]
+polls = [poll, poll]
+stops = [stop, stop]
 
 
 async def main():
     # use the global running variable to terminate the program
     global running
 
-    # set the red button to stop the program
-    red_button(callback=stop)
+    while True:
+        # set up a heartbeat to show the code is running - same for all modes
+        big_red_led.blink(500)
 
-    # set up a heartbeat to show the code is running
-    big_red_led.blink(500)
-    # starting colour for the RBG LEDs
-    colour = rgb.red
-    # set up the RGB LEDs to fade through the colour spectrum
-    rgb_led1.colour_fade(10)
-    rgb_led2.colour_fade(10, descend, grb.pink)
-    # set up the segmented display to count in binary
-    segmented.start_count(period_ms=30)
+        # wait for the green button to be pressed to start the program
+        await green_button().wait_for_press()
+        # get the mode from the DIP switches
+        mode = dips.value
 
-    # validate some inputs
-    environment.measurements()
-    print("Dip switch value:", dips.value)
+        if mode >= len(gos):
+            print(f"Invalid mode, please set dip switches between 0 and {len(gos) - 1}")
+            # go back to start of while loop
+            continue
 
-    while running:
-        val = int(slider.value * 250)
-        rgb_led1.period_ms = val
-        rgb_led2.period_ms = val
-        segmented.period_ms = val
+        running = True
+        gos[mode]()
 
-        # use 1/10th brightness to avoid outshining the GRB LEDs
-        pixel_val = brightness(colour, 25)
-        rgb_strand.set_colour(pixel_val)
-        rgb_ring.set_colour(pixel_val)
+        # set the red button to stop the program
+        red_button(callback=stops[mode])
 
-        colour = rgb.next_colour(colour)
+        # check environment
+        environment.measurements()
 
-        await asyncio.sleep(val / 255)
+        while running:
+            polls[mode]()
+            await asyncio.sleep(0.1)
 
 
 asyncio.run(main())

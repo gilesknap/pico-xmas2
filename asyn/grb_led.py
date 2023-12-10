@@ -95,14 +95,13 @@ class RgbLed:
     async def _fader(self, period_ms: int, direction, colour, count: int):
         self.period_ms = period_ms
         counter = 0
-        colour_num = grb.colours.index(colour)
         self.on()
 
         while self.running:
             counter += 1
             for factor in range(*direction):
-                colour = brightness(grb.colours[colour_num], factor)
-                self.set_colour(colour)
+                pixel = brightness(colour, factor)
+                self.set_colour(pixel)
                 # the ascent and decent are in steps of 10 in range 255
                 # so we div by 25 to get approx period_ms per cycle
                 await asyncio.sleep(self.period_ms * 0.001 / 25)
@@ -113,7 +112,7 @@ class RgbLed:
             # use the direction tuples to flip the direction
             if direction == descend:
                 direction = ascend
-                colour_num = (colour_num + 1) % len(grb.colours)
+                colour = grb.next_colour(colour)
             else:
                 direction = descend
         self._task = None

@@ -1,6 +1,6 @@
 import asyncio
 
-from hardware.inputs import red_button, slider
+from hardware.inputs import environment, red_button, slider
 from hardware.outputs import big_red_led, rgb_led1, rgb_led2, segmented
 from pico_utils.rgb_colours import descend, pink
 
@@ -23,6 +23,8 @@ async def main():
     segmented.start_count(period_ms=30)
 
     red_button(callback=stop)
+
+    environment.measurements()
 
     while running:
         val = int(slider.value * 250)

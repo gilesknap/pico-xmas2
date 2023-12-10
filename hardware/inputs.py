@@ -7,6 +7,7 @@ Note the wiring is for giles' modifications so check the
 
 from asyn.button import Button
 from asyn.slider import Slider
+from asyn.temp_mon import TempMon
 
 
 # day 3 buttons
@@ -22,3 +23,4 @@ def green_button(callback=None):
 slider = Slider(pin_num=26, name="Slider")
 
 # day 9 Temperature and Humidity sensor
+environment = TempMon(18, 19)

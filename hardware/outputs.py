@@ -1,3 +1,10 @@
+"""
+Hardware outputs for the PiHut Advent Calendar 2023
+
+Note the wiring is for giles' modifications so check the
+[wiring diagram](README.md) before using this code.
+"""
+
 from asyn.led import Led
 from asyn.rgb_led import RgbLed
 from asyn.segmented import Segmented

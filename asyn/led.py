@@ -7,7 +7,8 @@ class Led:
     """
     A class to represent an LED attached to a GPIO on the Pico.
 
-    This is the async version of the Led class from utils/led.py
+    This asynchronous implementation allows us to blink the LED without
+    blocking the main thread.
     """
 
     def __init__(self, pin_num: int):

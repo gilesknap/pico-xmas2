@@ -15,9 +15,10 @@ from pico_utils.rgb_colours import (
 
 class RgbLed:
     """
-    A class to represent an LED attached to a GPIO on the Pico.
+    A class to represent a NeoPixel LED attached to a GPIO on the Pico.
 
-    This is the async version of the Led class from utils/led.py
+    This is the async version lets us blink or fade the LED without
+    blocking the main thread.
     """
 
     def __init__(self, pin_num: int):

@@ -6,6 +6,9 @@ from machine import ADC, Pin
 class Slider:
     """
     A class to represent a sliding pot attached to an ADC on the Pico.
+
+    Some async methods are provided to monitor the slider state without
+    blocking the main thread.
     """
 
     def __init__(self, pin_num: int, name: str):

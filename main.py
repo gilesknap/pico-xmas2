@@ -1,10 +1,14 @@
 import asyncio
 
+# repetition - could get a bit more clever with module manipulation here
 import modes.mode0 as mode0
 import modes.mode1 as mode1
+import modes.mode2 as mode2
+import modes.mode3 as mode3
 from hardware.inputs import dips, environment, green_button, red_button, slider
 from hardware.outputs import (
     big_red_led,
+    buzzer,
     rgb_led1,
     rgb_led2,
     rgb_ring,
@@ -12,10 +16,10 @@ from hardware.outputs import (
     segmented,
 )
 
-modes = [mode0, mode1]
+modes = [mode0, mode1, mode2, mode3]
 
 # list all outputs we want to control in stop and poll functions
-outputs = [rgb_led1, rgb_led2, rgb_ring, rgb_strand, segmented]
+outputs = [rgb_led1, rgb_led2, rgb_ring, rgb_strand, segmented, buzzer]
 
 # global to track if the program is running
 running = True
@@ -40,9 +44,9 @@ def poll():
 
 
 # arrays of go, poll and stop functions for each mode]
-gos = [mode0.go, mode1.go]
-polls = [poll, poll]
-stops = [stop, stop]
+gos = [mode0.go, mode1.go, mode2.go, mode3.go]
+polls = [poll, poll, poll, poll]
+stops = [stop, stop, stop, stop]
 
 
 async def main():

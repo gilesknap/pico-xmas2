@@ -5,6 +5,7 @@ Note the wiring is for giles' modifications so check the
 [wiring diagram](README.md) before using this code.
 """
 
+from asyn.buzzer import Buzzer
 from asyn.grb_led import RgbLed
 from asyn.led import Led
 from asyn.rgb_multi import RgbMulti
@@ -35,3 +36,6 @@ rgb_strand = RgbMulti(22, 15)
 
 # day 10 RGB Dot Strand
 rgb_ring = RgbMulti(15, 12)
+
+# Extra item from the 2022 calendar
+buzzer = Buzzer(7)

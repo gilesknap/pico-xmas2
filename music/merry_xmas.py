@@ -1,4 +1,4 @@
-from pico_utils.tune import Tune
+from asyn.buzzer import Buzzer as Tune
 
 # create tune for the song "wish you a merry christmas"
 # each note is a tuple of (note, length, gap)

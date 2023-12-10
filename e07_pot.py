@@ -5,7 +5,7 @@ import time
 from machine import ADC, Pin
 from neopixel import NeoPixel
 
-# Set up the slider on ADC pin 28
+# Set up the slider on ADC GPIO 26
 potentiometer = ADC(Pin(26))
 
 # Define the LED pin number (2) and number of LEDs (1)

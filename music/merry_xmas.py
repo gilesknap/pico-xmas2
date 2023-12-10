@@ -1,4 +1,4 @@
-from utils.tune import Tune
+from pico_utils.tune import Tune
 
 # create tune for the song "wish you a merry christmas"
 # each note is a tuple of (note, length, gap)

@@ -4,6 +4,8 @@ A class to run a worker function in the background.
 import time
 from _thread import start_new_thread
 
+# TODO - asyncio-ify this class
+
 
 class Background:
     def __init__(self):

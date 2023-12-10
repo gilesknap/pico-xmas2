@@ -1,6 +1,6 @@
 import asyncio
 
-from hardware.inputs import segments
+from hardware.outputs import led_segments
 
 
 class Segmented:
@@ -9,13 +9,13 @@ class Segmented:
 
     It uses binary to represent the value of the display. The 5 segments can
     represent 0-31 (00000 to 11111 in binary).
+
+    Background counting is supported.
     """
 
     def __init__(self):
-        # use the segments list from hardware/async2023.py
-        self.segments = segments
-        self.bit_mask = []
         # prepare a list of tuples to represent binary 00000 to 11111
+        self.bit_mask = []
         for i in range(32):
             digits = tuple(int(d) for d in f"{i:05b}")
             self.bit_mask.append(digits)
@@ -38,7 +38,7 @@ class Segmented:
         mask = self.bit_mask[self.value]
         # set each segment to the appropriate value
         for i in range(5):
-            self.segments[i].value(mask[i])
+            led_segments[i].enable(mask[i])
 
     async def _counter(self, repeats):
         self.done = False

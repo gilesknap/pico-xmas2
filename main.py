@@ -12,7 +12,7 @@ def stop(_):
     running = False
     rgb_led1.stop()
     rgb_led2.stop()
-    segmented.stop_count()
+    segmented.stop()
 
 
 async def main():
@@ -25,7 +25,7 @@ async def main():
     red_button(callback=stop)
 
     while running:
-        val = float(slider.value) * 250
+        val = int(slider.value * 250)
         rgb_led1.period_ms = val
         rgb_led2.period_ms = val
         segmented.period_ms = val

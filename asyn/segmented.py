@@ -73,7 +73,7 @@ class Segmented:
         self.period_ms = period_ms
         self._task = asyncio.create_task(self._counter(repeats))
 
-    def stop_count(self):
+    def stop(self):
         self.running = False
 
     def __repr__(self):

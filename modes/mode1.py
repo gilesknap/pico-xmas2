@@ -27,4 +27,5 @@ def go():
     # set up the RGB ring and strand to fade through the colour spectrum
     # in a loop around the ring / strand
     rgb_ring.colour_fade()
+    rgb_strand.brightness = 60
     rgb_strand.colour_fade()

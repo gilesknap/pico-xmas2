@@ -6,6 +6,7 @@ Note the wiring is for giles' modifications so check the
 """
 
 from asyn.button import Button
+from asyn.dipswitch import DipSwitch
 from asyn.slider import Slider
 from asyn.temp_mon import TempMon
 
@@ -18,6 +19,9 @@ def red_button(callback=None):
 def green_button(callback=None):
     return Button(pin_num=1, name="Green", handler=callback)
 
+
+# day 5 dip switches
+dips = DipSwitch([2, 3, 4, 5, 6])
 
 # day 7 slider
 slider = Slider(pin_num=26, name="Slider")

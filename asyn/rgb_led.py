@@ -3,14 +3,8 @@ import asyncio
 from machine import Pin
 from neopixel import NeoPixel
 
-from pico_utils.rgb_colours import (
-    ascend,
-    brightness,
-    colours,
-    descend,
-    light_off,
-    white,
-)
+import pico_utils.grb_colours as grb
+from pico_utils.faders import ascend, brightness, descend
 
 
 class RgbLed:
@@ -24,7 +18,7 @@ class RgbLed:
     def __init__(self, pin_num: int):
         # initialize the LED NeoPixel
         self._pin = NeoPixel(Pin(pin_num), 1)
-        self._colour = white
+        self._colour = grb.white
         self._on = False
         self.off()
         # background task state
@@ -45,7 +39,7 @@ class RgbLed:
 
     def off(self):
         """turn off the LED"""
-        self._pin.fill(light_off)
+        self._pin.fill(grb.light_off)
         self._pin.write()
 
     def enable(self, value: bool):
@@ -81,7 +75,7 @@ class RgbLed:
         self._task = None
 
     def colour_fade(
-        self, period_ms: int, direction=ascend, colour=white, count: int = 0
+        self, period_ms: int, direction=ascend, colour=grb.white, count: int = 0
     ):
         """
         fade the LED in out through the colours, switching colours at
@@ -101,13 +95,13 @@ class RgbLed:
     async def _fader(self, period_ms: int, direction, colour, count: int):
         self.period_ms = period_ms
         counter = 0
-        colour_num = colours.index(colour)
+        colour_num = grb.colours.index(colour)
         self.on()
 
         while self.running:
             counter += 1
             for factor in range(*direction):
-                colour = brightness(colours[colour_num], factor)
+                colour = brightness(grb.colours[colour_num], factor)
                 self.set_colour(colour)
                 # the ascent and decent are in steps of 10 in range 255
                 # so we div by 25 to get approx period_ms per cycle
@@ -119,7 +113,7 @@ class RgbLed:
             # use the direction tuples to flip the direction
             if direction == descend:
                 direction = ascend
-                colour_num = (colour_num + 1) % len(colours)
+                colour_num = (colour_num + 1) % len(grb.colours)
             else:
                 direction = descend
         self._task = None

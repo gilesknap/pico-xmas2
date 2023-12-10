@@ -6,12 +6,10 @@ Calendar 2023.
 This one project endeavours to include all of the components from the
 2023 PiHut XMas Advent Calendar.
 
-See [The PiHut Calendar Information](https://thepihut.com/pages/maker-advent-2023-guides)
+See [PiHut Calendar Information](https://thepihut.com/pages/maker-advent-2023-guides)
 
 
 ## Setup
-
-
 
 Note to make this work on linux requires:
 ```bash

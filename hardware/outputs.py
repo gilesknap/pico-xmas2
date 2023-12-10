@@ -7,6 +7,7 @@ Note the wiring is for giles' modifications so check the
 
 from asyn.led import Led
 from asyn.rgb_led import RgbLed
+from asyn.rgb_multi import RgbMulti
 from asyn.segmented import Segmented
 
 # day 1 LED
@@ -29,3 +30,8 @@ rgb_led1 = RgbLed(28)
 rgb_led2 = RgbLed(27)
 
 # day 6 RGB LED Ring
+
+rgb_strand = RgbMulti(22, 15)
+
+# day 10 RGB Dot Strand
+rgb_ring = RgbMulti(15, 12)

@@ -75,7 +75,7 @@ class RgbLed:
         self._task = None
 
     def colour_fade(
-        self, period_ms: int, direction=ascend, colour=grb.white, count: int = 0
+        self, period_ms: int = 100, direction=ascend, colour=grb.white, count: int = 0
     ):
         """
         fade the LED in out through the colours, switching colours at
@@ -115,6 +115,34 @@ class RgbLed:
                 colour = grb.next_colour(colour)
             else:
                 direction = descend
+        self._task = None
+
+    def colours(
+        self,
+        period_ms: int = 1000,
+        count: int = 0,
+        colour: tuple[int, int, int] = grb.white,
+    ) -> None:
+        """
+        Rotate through all GRB colours
+        """
+        self.running = True
+        self._task = asyncio.create_task(self._colours(period_ms, colour, count))
+
+    async def _colours(self, period_ms: int, colour: tuple[int, int, int], count: int):
+        counter = 0
+        self.running = True
+        self.period_ms = period_ms
+
+        while self.running:
+            counter += 1
+            self.set_colour(colour)
+            if counter == count:
+                break
+            await asyncio.sleep(self.period_ms * 0.001)
+            colour = grb.next_colour(colour)
+
+        self.running = False
         self._task = None
 
     def stop(self):

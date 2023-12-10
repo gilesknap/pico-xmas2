@@ -25,8 +25,9 @@ class TempMon:
         measurements = self.dht20.measurements
 
         # Print the data
+        print()
         print("-- Environment ---------")  # Heading
         print(f"Temperature:      {round(measurements['t'],1)}°C")
         print(f"Humidity:         {round(measurements['rh'],1)}%")
         print("------------------------")  # Divider
-        print("                        ")  # Empty line
+        print()

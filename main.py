@@ -1,5 +1,6 @@
 import asyncio
 
+import modes.mode0 as mode0
 import modes.mode1 as mode1
 from hardware.inputs import dips, environment, green_button, red_button, slider
 from hardware.outputs import (
@@ -11,6 +12,8 @@ from hardware.outputs import (
     segmented,
 )
 
+modes = [mode0, mode1]
+
 # list all outputs we want to control in stop and poll functions
 outputs = [rgb_led1, rgb_led2, rgb_ring, rgb_strand, segmented]
 
@@ -19,10 +22,11 @@ running = True
 
 
 def stop(_):
+    global running
     for output in outputs:
         # using duck typing here - really ought to create a class hierarchy!
-        # (but type checking in MicroPython is a bit limited so let's leave it)
         output.stop()
+    running = False
 
 
 # global poll function - default poll behaviour for most modes
@@ -35,8 +39,8 @@ def poll():
     return val
 
 
-# arrays of go, tick and stop functions for each mode]
-gos = [mode1.go, mode1.go]
+# arrays of go, poll and stop functions for each mode]
+gos = [mode0.go, mode0.go]
 polls = [poll, poll]
 stops = [stop, stop]
 
@@ -48,6 +52,11 @@ async def main():
     while True:
         # set up a heartbeat to show the code is running - same for all modes
         big_red_led.blink(500)
+
+        print("\n\nSelect mode with DIP switches and press green button to start")
+        print("modes:")
+        for i, m in enumerate(modes):
+            print(f"{i}: {m.description}")
 
         # wait for the green button to be pressed to start the program
         await green_button().wait_for_press()
@@ -66,6 +75,7 @@ async def main():
         red_button(callback=stops[mode])
 
         # check environment
+        print()
         environment.measurements()
 
         while running:

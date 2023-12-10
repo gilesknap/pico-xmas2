@@ -26,6 +26,11 @@ class RgbLed:
         self._colour = white
         self._on = False
         self.off()
+        # background task state
+        self.running = False
+        self._task = None
+        # period of background task
+        self.period_ms = 500
 
     def set_colour(self, colour: tuple):
         """set the colour of the LED"""
@@ -57,18 +62,22 @@ class RgbLed:
         period_ms: the period of the blink in milliseconds
         count: the number of blinks, 0 means blink forever
         """
-        self.task = asyncio.create_task(self._blink(period_ms, count))
+        self._task = asyncio.create_task(self._blink(period_ms, count))
 
     async def _blink(self, period_ms: int, count: int):
         counter = 0
-        while True:
+        self.running = True
+        self.period_ms = period_ms
+        while self.running:
             counter += 1
             self.on()
-            await asyncio.sleep(period_ms * 0.001)
+            await asyncio.sleep(self.period_ms * 0.001)
             self.off()
-            await asyncio.sleep(period_ms * 0.001)
+            await asyncio.sleep(self.period_ms * 0.001)
             if counter == count:
                 break
+        self.running = False
+        self._task = None
 
     def colour_fade(
         self, period_ms: int, direction=ascend, colour=white, count: int = 0
@@ -83,21 +92,25 @@ class RgbLed:
         direction: the direction of the first fade
         colour: the colour to start at
         """
-        self.task = asyncio.create_task(
+        self.running = True
+        self._task = asyncio.create_task(
             self._fader(period_ms, direction, colour, count)
         )
 
     async def _fader(self, period_ms: int, direction, colour, count: int):
+        self.period_ms = period_ms
         counter = 0
         colour_num = colours.index(colour)
         self.on()
 
-        while True:
+        while self.running:
             counter += 1
             for factor in range(*direction):
                 colour = brightness(colours[colour_num], factor)
                 self.set_colour(colour)
-                await asyncio.sleep(period_ms * 0.001 / 255)
+                # the ascent and decent are in steps of 10 in range 255
+                # so we div by 25 to get approx period_ms per cycle
+                await asyncio.sleep(self.period_ms * 0.001 / 25)
 
             if counter == count:
                 break
@@ -108,11 +121,11 @@ class RgbLed:
                 colour_num = (colour_num + 1) % len(colours)
             else:
                 direction = descend
+        self._task = None
 
     def stop(self):
-        if self.task:
-            self.task.cancel()
-        self.task = None
+        """stop the current task"""
+        self.running = False
 
     def __repr__(self):
         """return a string representation of the LED"""

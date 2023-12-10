@@ -1,7 +1,5 @@
 import asyncio
 
-from hardware.outputs import led_segments
-
 
 class Segmented:
     """
@@ -13,19 +11,24 @@ class Segmented:
     Background counting is supported.
     """
 
-    def __init__(self):
+    def __init__(self, led_segments):
+        self._led_segments = led_segments
         # prepare a list of tuples to represent binary 00000 to 11111
-        self.bit_mask = []
+        self._bit_mask = []
         for i in range(32):
             digits = tuple(int(d) for d in f"{i:05b}")
-            self.bit_mask.append(digits)
-        self.value = 0
-        self.start = 0
-        self.stop = 31
-        self.step = 1
-        self.task = None
-        self.done = False
+            self._bit_mask.append(digits)
+        self._start = 0
+        self._stop = 31
+        self._step = 1
+        self._task = None
+        # background task state
+        self.running = False
+        self._task = None
+        # period of background task
         self.period_ms = 500
+        # current value
+        self.value = 0
 
     def set_value(self, value):
         """set the value of the display"""
@@ -35,33 +38,43 @@ class Segmented:
     def display(self):
         """display the current value"""
         # get the bit mask for the current value
-        mask = self.bit_mask[self.value]
+        mask = self._bit_mask[self.value]
         # set each segment to the appropriate value
         for i in range(5):
-            led_segments[i].enable(mask[i])
+            self._led_segments[i].enable(mask[i])
 
     async def _counter(self, repeats):
-        self.done = False
-        for _ in range(repeats):
-            for i in range(self.start, self.stop + 1, self.step):
+        count = 0
+        self.running = True
+        while self.running:
+            count += 1
+            for i in range(self._start, self._stop + 1, self._step):
                 self.set_value(i)
                 await asyncio.sleep(self.period_ms * 0.001)
-        self.done = True
+                if not self.running:
+                    break
+            if count == repeats:
+                break
+        self.running = False
 
     async def wait_for_done(self):
-        while not self.done:
+        while self.running:
             await asyncio.sleep(0.1)
 
-    def start_count(self, start=0, stop=31, step=1, period_ms=500, repeats=5):
-        self.start = start
-        self.stop = stop
-        self.step = step
+    def start_count(self, start=0, stop=31, step=1, period_ms=500, repeats=0):
+        """
+        count in binary from start to stop in steps of step with a period of
+        period_ms milliseconds. If repeats is 0 then the count will continue
+        forever.
+        """
+        self._start = start
+        self._stop = stop
+        self._step = step
         self.period_ms = period_ms
-        self.task = asyncio.create_task(self._counter(repeats))
+        self._task = asyncio.create_task(self._counter(repeats))
 
     def stop_count(self):
-        if self.task:
-            self.task.cancel()
+        self.running = False
 
     def __repr__(self):
         """return a string representation of the display"""

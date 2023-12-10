@@ -1,5 +1,6 @@
 from asyn.led import Led
 from asyn.rgb_led import RgbLed
+from asyn.segmented import Segmented
 
 # day 1 LED
 onboard_led = Led(25)
@@ -14,6 +15,7 @@ seg3_led = Led(11)
 seg4_led = Led(10)
 seg5_led = Led(9)
 led_segments = [seg1_led, seg2_led, seg3_led, seg4_led, seg5_led]
+segmented = Segmented(led_segments)
 
 # day 5 colour LEDs
 rgb_led1 = RgbLed(28)

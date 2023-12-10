@@ -20,6 +20,11 @@ class Led:
         self._power = 65535
         # turn the LED off
         self._pwm.duty_u16(0)
+        # background task state
+        self.running = False
+        self._task = None
+        # period of background task
+        self.period_ms = 500
 
     def on(self):
         """turn on the LED at the current brightness"""
@@ -47,15 +52,21 @@ class Led:
         self._task = asyncio.create_task(self._blink(period_ms))
 
     async def _blink(self, period_ms: int):
-        while True:
+        self.running = True
+        self.period_ms = period_ms
+        while self.running:
             self.on()
-            await asyncio.sleep(period_ms * 0.001)
+            await asyncio.sleep(self.period_ms * 0.001)
+
+            if not self.running:
+                break
+
             self.off()
-            await asyncio.sleep(period_ms * 0.001)
+            await asyncio.sleep(self.period_ms * 0.001)
 
     def stop(self):
-        if self._task:
-            self._task.cancel()
+        """stop the current task"""
+        self.running = False
 
     def __repr__(self):
         """return a string representation of the LED"""

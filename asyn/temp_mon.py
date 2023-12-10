@@ -8,7 +8,7 @@ class TempMon:
     A class to represent a DHT20 temperature and humidity sensor attached to
     an I2C bus on the Pico.
 
-    Asynchronous monitoring will be supported. (TODO)
+    Asynchronous monitoring could be supported. (TODO)
     """
 
     def __init__(self, i2c1_sda: int, i2c1_sdc: int):

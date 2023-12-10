@@ -19,16 +19,18 @@ class RgbMulti:
         self._gpio = gpio
         self._led_count = led_count
         self._neo = NeoPixel(Pin(self._gpio), self._led_count)
+        self._colour = rgb.red
         # background task state
         self.running = False
         self._task = None
         # period of background task
-        self.period_ms = 500
+        self.period_ms = 200
 
     def set_colour(self, colour: tuple[int, int, int]) -> None:
         """
         Set the colour of the RGB LED
         """
+        self._colour = colour
         self._neo.fill(colour)
         self._neo.write()
 
@@ -40,7 +42,7 @@ class RgbMulti:
 
     def colours(
         self,
-        period_ms: int = 1000,
+        period_ms: int = 200,
         count: int = 0,
         colour: tuple[int, int, int] = rgb.red,
         brightness: int = 20,  # 10% brightness is a good default!
@@ -49,17 +51,14 @@ class RgbMulti:
         Rotate through all RGB colours
         """
         self.running = True
-        self._task = asyncio.create_task(
-            self._colours(period_ms, colour, count, brightness)
-        )
-        self.set_colour(colour)
+        self.period_ms = period_ms
+        self._task = asyncio.create_task(self._colours(colour, count, brightness))
 
     async def _colours(
-        self, period_ms: int, colour: tuple[int, int, int], count: int, brightness: int
+        self, colour: tuple[int, int, int], count: int, brightness: int
     ) -> None:
         counter = 0
         self.running = True
-        self.period_ms = period_ms
 
         while self.running:
             counter += 1
@@ -71,6 +70,51 @@ class RgbMulti:
 
         self.running = False
         self._task = None
+
+    def colour_fade(self, period_ms: int = 200, colour: tuple[int, int, int] = rgb.red):
+        """
+        fade the LED through all colours, rotating through the pixels
+        and gradually changing colour, leaving a trail of colour behind
+        with each successive pixel slightly dimmer
+
+        :param period_ms: the period of a single rotation in milliseconds
+        :param colour: the starting colour
+        """
+        self.off()
+        self.running = True
+        self._colour = colour
+        self.period_ms = period_ms
+        self._task = asyncio.create_task(self._colour_fade())
+
+    def _render_fade(self, pixels: list[tuple[int, int, int]], start) -> None:
+        # dim all the pixels by 5% and then render them into the
+        # NeoPixel list starting at the start index and wrapping around
+        for i, pixel in enumerate(pixels):
+            # dim the pixel by 40% accumulating
+            pixels[i] = fade.brightness(pixels[i], 0.60 * 255)
+        for i in range(self._led_count):
+            self._neo[i] = pixels[(i + start) % self._led_count]
+        self._neo.write()
+
+    async def _colour_fade(self):
+        pixel = 0
+        colour = self._colour
+        pixels: list[tuple[int, int, int]] = [rgb.light_off] * self._led_count
+
+        while self.running:
+            next_colour = rgb.next_colour(colour)
+            diff = fade.colour_diff(next_colour, colour)
+            # fade between colours in steps of 10
+            for i in range(10):
+                # remove last pixel from the end and add a new one at the start
+                pixels.pop(self._led_count - 1)
+                this_pixel_colour = fade.colour_add(self._colour, diff, (i + 1) / 10)
+                pixels.insert(0, this_pixel_colour)
+                self._render_fade(pixels, pixel)
+                pixel = (pixel + 1) % self._led_count
+                # 1 period is one time around the loop of all pixels
+                await asyncio.sleep(self.period_ms * 0.001)
+            colour = next_colour
 
     def stop(self):
         """stop the current task"""

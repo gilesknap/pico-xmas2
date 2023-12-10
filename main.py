@@ -40,7 +40,7 @@ def poll():
 
 
 # arrays of go, poll and stop functions for each mode]
-gos = [mode0.go, mode0.go]
+gos = [mode0.go, mode1.go]
 polls = [poll, poll]
 stops = [stop, stop]
 
@@ -49,10 +49,10 @@ async def main():
     # use the global running variable to terminate the program
     global running
 
-    while True:
-        # set up a heartbeat to show the code is running - same for all modes
-        big_red_led.blink(500)
+    # set up a heartbeat to show the code is running - same for all modes
+    big_red_led.blink(500)
 
+    while True:
         print("\n\nSelect mode with DIP switches and press green button to start")
         print("modes:")
         for i, m in enumerate(modes):
@@ -64,7 +64,7 @@ async def main():
         mode = dips.value
 
         if mode >= len(gos):
-            print(f"Invalid mode, please set dip switches between 0 and {len(gos) - 1}")
+            print(f"\n ERROR: Please set dip switches between 0 and {len(gos) - 1}")
             # go back to start of while loop
             continue
 

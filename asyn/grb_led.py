@@ -25,7 +25,7 @@ class RgbLed:
         self.running = False
         self._task = None
         # period of background task
-        self.period_ms = 500
+        self.period_ms = 200
 
     def set_colour(self, colour: tuple):
         """set the colour of the LED"""
@@ -49,7 +49,7 @@ class RgbLed:
         else:
             self.off()
 
-    def blink(self, period_ms: int, count: int = 0):
+    def blink(self, period_ms: int = 200, count: int = 0):
         """
         blink the LED at the current colour
 
@@ -57,12 +57,12 @@ class RgbLed:
         period_ms: the period of the blink in milliseconds
         count: the number of blinks, 0 means blink forever
         """
-        self._task = asyncio.create_task(self._blink(period_ms, count))
-
-    async def _blink(self, period_ms: int, count: int):
-        counter = 0
         self.running = True
         self.period_ms = period_ms
+        self._task = asyncio.create_task(self._blink(count))
+
+    async def _blink(self, count: int):
+        counter = 0
         while self.running:
             counter += 1
             self.on()
@@ -75,7 +75,7 @@ class RgbLed:
         self._task = None
 
     def colour_fade(
-        self, period_ms: int = 100, direction=ascend, colour=grb.white, count: int = 0
+        self, period_ms: int = 200, direction=ascend, colour=grb.white, count: int = 0
     ):
         """
         fade the LED in out through the colours, switching colours at
@@ -88,12 +88,10 @@ class RgbLed:
         colour: the colour to start at
         """
         self.running = True
-        self._task = asyncio.create_task(
-            self._fader(period_ms, direction, colour, count)
-        )
-
-    async def _fader(self, period_ms: int, direction, colour, count: int):
         self.period_ms = period_ms
+        self._task = asyncio.create_task(self._fader(direction, colour, count))
+
+    async def _fader(self, direction, colour, count: int):
         counter = 0
         self.on()
 

@@ -11,7 +11,7 @@ class DipSwitch:
     Readouts from this class are then in the form of an integer representing
     the binary value of the switches.
 
-    Asynchronous monitoring of changes of state are supported. (TODO)
+    Asynchronous monitoring of changes of state could be supported. (TODO)
     """
 
     def __init__(self, pin_nums: list[int]):

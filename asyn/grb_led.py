@@ -19,10 +19,9 @@ class RgbLed:
         # initialize the LED NeoPixel
         self._pin = NeoPixel(Pin(pin_num), 1)
         self._colour = grb.white
-        self._on = False
         self.off()
         # background task state
-        self.running = False
+        self._running = False
         self._task = None
         # period of background task
         self.period_ms = 200
@@ -57,13 +56,13 @@ class RgbLed:
         period_ms: the period of the blink in milliseconds
         count: the number of blinks, 0 means blink forever
         """
-        self.running = True
+        self._running = True
         self.period_ms = period_ms
         self._task = asyncio.create_task(self._blink(count))
 
     async def _blink(self, count: int):
         counter = 0
-        while self.running:
+        while self._running:
             counter += 1
             self.on()
             await asyncio.sleep(self.period_ms * 0.001)
@@ -71,7 +70,7 @@ class RgbLed:
             await asyncio.sleep(self.period_ms * 0.001)
             if counter == count:
                 break
-        self.running = False
+        self._running = False
         self._task = None
 
     def colour_fade(
@@ -87,7 +86,7 @@ class RgbLed:
         direction: the direction of the first fade
         colour: the colour to start at
         """
-        self.running = True
+        self._running = True
         self.period_ms = period_ms
         self._task = asyncio.create_task(self._fader(direction, colour, count))
 
@@ -95,7 +94,7 @@ class RgbLed:
         counter = 0
         self.on()
 
-        while self.running:
+        while self._running:
             counter += 1
             for factor in range(*direction):
                 pixel = brightness(colour, factor)
@@ -124,15 +123,15 @@ class RgbLed:
         """
         Rotate through all GRB colours
         """
-        self.running = True
+        self._running = True
         self._task = asyncio.create_task(self._colours(period_ms, colour, count))
 
     async def _colours(self, period_ms: int, colour: tuple[int, int, int], count: int):
         counter = 0
-        self.running = True
+        self._running = True
         self.period_ms = period_ms
 
-        while self.running:
+        while self._running:
             counter += 1
             self.set_colour(colour)
             if counter == count:
@@ -140,12 +139,12 @@ class RgbLed:
             await asyncio.sleep(self.period_ms * 0.001)
             colour = grb.next_colour(colour)
 
-        self.running = False
+        self._running = False
         self._task = None
 
     def stop(self):
         """stop the current task"""
-        self.running = False
+        self._running = False
 
     def __repr__(self):
         """return a string representation of the LED"""

@@ -27,7 +27,7 @@ class RgbMulti:
         #### public members to set directly ####################################
         # period of background task
         self.period_ms = 200
-        self.brightness: int = 30
+        self.brightness: int = 20
 
     def set_colour(self, colour: tuple[int, int, int]) -> None:
         """

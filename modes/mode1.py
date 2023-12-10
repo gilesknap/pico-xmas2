@@ -8,13 +8,10 @@ from hardware.outputs import (
 )
 from pico_utils.faders import descend
 
-description = "Colour Fade"
+description = "Colour Fading Loops"
 
 
 def go():
-    # setup this mode - called once at start up
-    print("Starting mode 1 Colour Fade ...")
-
     # set up the RGB LEDs to fade through the colour spectrum
     # with one LED fading up and the other fading down and with
     # different colours
@@ -26,6 +23,7 @@ def go():
 
     # set up the RGB ring and strand to fade through the colour spectrum
     # in a loop around the ring / strand
+    rgb_ring.brightness = 30
     rgb_ring.colour_fade()
-    rgb_strand.brightness = 60
+    rgb_strand.brightness = 80
     rgb_strand.colour_fade()

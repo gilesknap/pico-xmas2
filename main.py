@@ -67,6 +67,8 @@ async def main():
             print(f"\n ERROR: Please set dip switches between 0 and {len(gos) - 1}")
             # go back to start of while loop
             continue
+        else:
+            print(f"\nStarting mode {mode}: {modes[mode].description}")
 
         running = True
         gos[mode]()

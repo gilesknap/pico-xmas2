@@ -42,12 +42,19 @@ class Led:
         else:
             self.off()
 
-    def brightness(self, value=65535):
-        """set the brightness of the LED"""
-        self._power = value
+    @property
+    def brightness(self):
+        # normalize the brightness to 0-255 like the rest of the LEDs
+        return self._power / 65535 * 255
+
+    @brightness.setter
+    def name(self, value):
+        self._power = value / 255 * 65535
         # if the LED is already on then change the brightness
-        if self._pwm.duty_u16() > 0:
+        if self._pwm.duty_u16(0) > 0:
             self.on()
+        else:
+            self.off()
 
     def blink(self, period_ms: int):
         self._task = asyncio.create_task(self._blink(period_ms))

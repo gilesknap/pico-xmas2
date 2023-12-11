@@ -33,20 +33,20 @@ And here is a picture of the setup to help interpret the above:
 
 ## What the Code can do
 
-So the idea here is that you can pick the 'mode' by setting the dip switches and 
+So the idea here is that you can pick the 'mode' by setting the dip switches and
 start and stop he code using the green and red buttons respectively. You can
 also use the slider to speed up or slow down operation.
 
 The code is structured using modules and classes for reusability. It also uses
-asyncio for parallel operation so that it can drive all of the output devices and 
+asyncio for parallel operation so that it can drive all of the output devices and
 monitor all of the input devices simultaneously.
 
-I have written 4 'modes' so far,  I will be accepting PRs to add some more if anyone 
-feels like contributing. 
+I have written 4 'modes' so far,  I will be accepting PRs to add some more if anyone
+feels like contributing.
 
 I was considering some games where you have to repeat sequences etc.
 
-Current modes are as follows: (note you nee to use binary to select them!):
+Current modes are as follows: (note you need to use binary to select them!):
 
 ```
 Select mode with DIP switches and press green button to start

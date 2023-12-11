@@ -6,7 +6,12 @@ Calendar 2023.
 This one project endeavours to include all of the components from the
 2023 PiHut XMas Advent Calendar.
 
-See [PiHut Calendar Information](https://thepihut.com/pages/maker-advent-2023-guides)
+See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)
+
+Here is a video of what I have so far. Shot a couple of days before the final 
+version.
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/6z96bCi0_JQ/0.jpg)](http://www.youtube.com/watch?v=6z96bCi0_JQ "Let It Glow Advent Calenar")
 
 
 ## Setup

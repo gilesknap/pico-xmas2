@@ -34,7 +34,7 @@ And here is a picture of the setup to help interpret the above:
 ## What the Code can do
 
 So the idea here is that you can pick the 'mode' by setting the dip switches and
-start and stop he code using the green and red buttons respectively. You can
+start and stop the code using the green and red buttons respectively. You can
 also use the slider to speed up or slow down operation.
 
 The code is structured using modules and classes for reusability. It also uses

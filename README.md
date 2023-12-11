@@ -57,9 +57,13 @@ modes:
 3: Colour Fading Loops with Music
 ```
 
-## How get the code
+## How to get the code
 
 Todo: I'll add some simple instructions for getting this project onto your pico.
-Expect these at the latest Sun 17th December 2023!
+Expect these to be doen at the latest Sun 17th December 2023!
+
+## Todo
+
+Also I still have the final day's item to add onto the board!
 
 

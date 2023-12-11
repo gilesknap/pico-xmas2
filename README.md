@@ -25,5 +25,41 @@ First you need to wire all your components together. I used a couple of extras:
 
 Here is a wiring diagram:
 
-[![Wiring Diagram](board/layout.jpg)]
+![Wiring Diagram](board/layout.jpg)
+
+And here is a picture of the setup to help interpret the above:
+
+![image](https://github.com/gilesknap/pico-xmas2/assets/964827/8c77d835-c7dc-4d6f-b013-b9dfe5ffd60e)
+
+## What the Code can do
+
+So the idea here is that you can pick the 'mode' by setting the dip switches and 
+start and stop he code using the green and red buttons respectively. You can
+also use the slider to speed up or slow down operation.
+
+The code is structured using modules and classes for reusability. It also uses
+asyncio for parallel operation so that it can drive all of the output devices and 
+monitor all of the input devices simultaneously.
+
+I have written 4 'modes' so far,  I will be accepting PRs to add some more if anyone 
+feels like contributing. 
+
+I was considering some games where you have to repeat sequences etc.
+
+Current modes are as follows: (note you nee to use binary to select them!):
+
+```
+Select mode with DIP switches and press green button to start
+modes:
+0: Colour Cycle
+1: Colour Fading Loops
+2: Colour Cycle with Music
+3: Colour Fading Loops with Music
+```
+
+## How get the code
+
+Todo: I'll add some simple instructions for getting this project onto your pico.
+Expect these at the latest Sun 17th December 2023!
+
 

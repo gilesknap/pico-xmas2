@@ -8,8 +8,7 @@ This one project endeavours to include all of the components from the
 
 See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)
 
-Here is a video of what I have so far. Shot a couple of days before the final
-version.
+Click the image below for a video of the final version of the project.
 
 [![image](https://github.com/gilesknap/pico-xmas2/assets/964827/2cc1b1c8-6536-4c89-ae70-3180e0974a34)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
 

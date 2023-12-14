@@ -4,6 +4,8 @@ import time
 
 from machine import Pin
 
+from typings.stdlib.typing import Callable, Optional
+
 pin_regex = re.compile(r"GPIO(\d+)")
 
 
@@ -15,14 +17,13 @@ class Button:
     buttons at the same time.
     """
 
-    debug = False
-
     def __init__(
-        self, pin_num: int, name: str, handler=None, debounce_ms: int = 30, debug=False
+        self,
+        pin_num: int,
+        name: str,
+        handler: Optional[Callable] = None,
+        debounce_ms: int = 30,
     ):
-        # there is one interrupt handler for all buttons so we track the
-        # Button instance to pin number relationship in a class variable
-        Button.debug = debug
         self.pin = Pin(pin_num, Pin.IN, Pin.PULL_DOWN)
         self.num = pin_num
         self.irq = self.pin.irq(
@@ -42,12 +43,6 @@ class Button:
         """
         value = self.pin.value()
 
-        if Button.debug:
-            print(
-                f"_callback: {self.name} pressed={self.pressed}, "
-                + f"value={value}, num={self.num}"
-            )
-
         # only interested in transitions of button state
         if value != self.pressed:
             # debounce the button
@@ -57,9 +52,6 @@ class Button:
                 self.last_state_change = now
                 self.pressed = value
                 self.handler(self)
-            else:
-                if Button.debug:
-                    print("{self.name} debounce")
 
     async def wait_for_press(self):
         """
@@ -83,21 +75,3 @@ class Button:
     def __repr__(self):
         """return a string representation of the button"""
         return f"{self.name} " + f"{'pressed' if self.pressed else 'released'}"
-
-
-if __name__ == "__main__":
-    # test code
-    async def main():
-        print("Testing Button class with pins 2,3")
-        button1 = Button(2, "Red")
-        button2 = Button(3, "Green", debug=True)
-
-        print("Waiting for button 1 to be pressed")
-        await button1.wait_for_press()
-        await button1.wait_for_release()
-        print("Waiting for button 2 to be pressed")
-        await button2.wait_for_press()
-        await button2.wait_for_release()
-        print("Done")
-
-    asyncio.run(main())

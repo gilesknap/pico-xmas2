@@ -9,6 +9,7 @@ from hardware.inputs import dips, environment, green_button, red_button, slider
 from hardware.outputs import (
     big_red_led,
     buzzer,
+    display,
     rgb_led1,
     rgb_led2,
     rgb_ring,
@@ -56,14 +57,22 @@ async def main():
     # set up a heartbeat to show the code is running - same for all modes
     big_red_led.blink(500)
 
+    buzzer.set_print(display.lcd_print)
+
     while True:
-        print("\n\nSelect mode with DIP switches and press green button to start")
-        print("modes:")
-        for i, m in enumerate(modes):
-            print(f"{i}: {m.description}")
+        msg = "-->  Modes: " + " ".join(
+            [f"{i}:{m.description}" for i, m in enumerate(modes)]
+        )
+
+        display.lcd_print(msg, 0)
+        display.lcd_print("Green to Start", 1)
 
         # wait for the green button to be pressed to start the program
         await green_button().wait_for_press()
+
+        display.lcd_print("Running... ", 0)
+        display.lcd_print("Red to Stop", 1)
+
         # get the mode from the DIP switches
         mode = dips.value
 
@@ -80,8 +89,6 @@ async def main():
         # set the red button to stop the program
         red_button(callback=stops[mode])
 
-        # check environment
-        print()
         environment.measurements()
 
         while running:

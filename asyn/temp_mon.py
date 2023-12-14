@@ -20,14 +20,14 @@ class TempMon:
 
         # Set up DHT20 device with I2C address
         self.dht20 = DHT20(0x38, self._i2c)
+        self._print = print
+
+    def set_print(self, print):
+        self._print = print
 
     def measurements(self):
         measurements = self.dht20.measurements
 
         # Print the data
-        print()
-        print("-- Environment ---------")  # Heading
-        print(f"Temperature:      {round(measurements['t'],1)}°C")
-        print(f"Humidity:         {round(measurements['rh'],1)}%")
-        print("------------------------")  # Divider
-        print()
+        self._print(f"Temp: {round(measurements['t'],1)}")
+        self._print(f"Humid: {round(measurements['rh'],1)}%")

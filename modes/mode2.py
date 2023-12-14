@@ -2,7 +2,7 @@ from hardware.outputs import buzzer
 from modes.mode0 import go as go0
 from music.merry_xmas import wish_you_a_merry_xmas
 
-description = "Colour Cycle with Music"
+description = "Flash+Music"
 
 
 def go():

@@ -8,7 +8,7 @@ from hardware.outputs import (
 )
 from pico_utils.faders import descend
 
-description = "Colour Fading Loops"
+description = "Fading"
 
 
 def go():

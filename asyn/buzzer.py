@@ -29,6 +29,10 @@ class Buzzer:
         self.pin_num = pin_num
         self.buzzer = PWM(Pin(pin_num))
         self.running = False
+        self._print = print
+
+    def set_print(self, print):
+        self._print = print
 
     def play_tune(self, tune: list, volume: int = 1000, lyrics=True, repeat: int = 0):
         """setup a Tune object with a list of notes and a volume"""
@@ -49,7 +53,7 @@ class Buzzer:
         """play a tune"""
         for element in self.tune:
             if isinstance(element, str) and self.lyrics:
-                print(element)
+                self._print(element)
             elif isinstance(element, tuple):
                 note, length, gap = element
                 await self.play_tone(note, length, gap)

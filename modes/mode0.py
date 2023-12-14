@@ -7,7 +7,7 @@ from hardware.outputs import (
     segmented,
 )
 
-description = "Colour Cycle"
+description = "Flash"
 
 
 def go():

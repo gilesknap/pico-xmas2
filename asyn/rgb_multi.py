@@ -110,6 +110,8 @@ class RgbMulti:
                 pixel = (pixel + 1) % self._led_count
                 # 1 period is one time around the loop of all pixels
                 await asyncio.sleep(self.period_ms * 0.001)
+                if not self._running:
+                    break
             colour = next_colour
 
     def stop(self):

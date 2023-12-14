@@ -6,6 +6,7 @@ Note the wiring is for giles' modifications so check the
 """
 
 from asyn.buzzer import Buzzer
+from asyn.display import Display
 from asyn.grb_led import RgbLed
 from asyn.led import Led
 from asyn.rgb_multi import RgbMulti
@@ -39,3 +40,6 @@ rgb_ring = RgbMulti(15, 12)
 
 # Extra item from the 2022 calendar
 buzzer = Buzzer(7)
+
+# Display from day #12
+display = Display(16, 17, 0, 0x27, 2, 16)

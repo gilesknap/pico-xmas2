@@ -40,14 +40,13 @@ class Display:
         if self._tasks[line_no] is not None:
             self._tasks[line_no].cancel()  # type: ignore
 
-        self._tasks[line_no] = asyncio.create_task(self._print(line, line_no))  # type: ignore
-
-    async def _print(self, line: str, line_no: int):
         self.lcd.move_to(0, line_no)
         if len(line) > self._cols:
-            await self._scroll(line, line_no)
+            self._tasks[line_no] = asyncio.create_task(self._scroll(line, line_no))  # type: ignore
         else:
-            await self.lcd.async_putstr(f"{line:16}", 0, line_no)
+            self._tasks[line_no] = asyncio.create_task(  # type: ignore
+                self.lcd.async_putstr(f"{line:16}", 0, line_no)
+            )
 
     async def _scroll(self, line: str, line_no: int):
         """

@@ -60,9 +60,8 @@ async def main():
     buzzer.set_print(display.lcd_print)
 
     while True:
-        msg = "-->  Modes: " + " ".join(
-            [f"{i}:{m.description}" for i, m in enumerate(modes)]
-        )
+        modes_str = " ".join([f"{i}:{m.description}" for i, m in enumerate(modes)])
+        msg = f"-->  Modes: {modes_str} "
 
         display.lcd_print(msg, 0)
         display.lcd_print("Green to Start", 1)

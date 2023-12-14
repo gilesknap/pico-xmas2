@@ -159,7 +159,6 @@ class LcdApi:
 
     async def async_putchar(self, char, x, y):
         self.move_to(x, y)
-        await asyncio.sleep(0.001)
         self.hal_write_data(ord(char))
         await asyncio.sleep(0.001)
 

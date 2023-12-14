@@ -11,8 +11,7 @@ See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-gu
 Here is a video of what I have so far. Shot a couple of days before the final
 version.
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/6z96bCi0_JQ/0.jpg)](http://www.youtube.com/watch?v=6z96bCi0_JQ "Let It Glow Advent Calenar")
-
+[![image](https://github.com/gilesknap/pico-xmas2/assets/964827/2cc1b1c8-6536-4c89-ae70-3180e0974a34)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
 
 ## Setup
 

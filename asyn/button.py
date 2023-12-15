@@ -1,10 +1,9 @@
 import asyncio
 import re
 import time
+from typing import Callable, Optional
 
 from machine import Pin
-
-from typings.stdlib.typing import Callable, Optional
 
 pin_regex = re.compile(r"GPIO(\d+)")
 

@@ -10,7 +10,7 @@ See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-gu
 
 Click the image below for a video of the final version of the project.
 
-[![image](https://photos.google.com/share/AF1QipOKM4df4whVsKS-_wMHOkxQnXSTlYW0TbV-q1ZVhQqGu7bcyeW8Hhg_G9L7fYVcnA/photo/AF1QipPBvRdftksy1RDZYpTw3xyxrsysfLA5K6VFgEAF?key=YUdYWXNHLWRZNWNHREllWHBSOXFuakdsNlVwVFFR)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
+[![image](board/Advent2023.jpg)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
 
 ## Setup
 

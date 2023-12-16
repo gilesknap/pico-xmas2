@@ -34,6 +34,7 @@ See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-gu
 
 Here is the wiring diagram:
 
+
 ![Wiring Diagram](board/Advent2023.excalidraw.svg)
 
 ### Install the tools

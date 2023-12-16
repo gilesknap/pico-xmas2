@@ -1,9 +1,11 @@
+from typing import Any, List, Tuple, Union
+
 from asyn.buzzer import Buzzer as Tune
 
 # create tune for the song "wish you a merry christmas"
 # each note is a tuple of (note, length, gap)
 # or a string for print out of the lyrics!
-wish_you_a_merry_xmas = [
+wish_you_a_merry_xmas: List[Union[str, Tuple[Any, float, float]]] = [
     # We wish you a merry Christmas
     "We",
     (Tune.D, 0.5, 0.1),

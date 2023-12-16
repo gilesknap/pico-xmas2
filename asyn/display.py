@@ -21,7 +21,7 @@ class Display:
     :param cols: the number of columns on the display
     """
 
-    def __init__(self, sda, scl, bus, addr, rows, cols):
+    def __init__(self, sda: int, scl: int, bus: int, addr: int, rows: int, cols: int):
         self._rows = rows
         self._cols = cols
         self.lines = ["" for _ in range(rows)]

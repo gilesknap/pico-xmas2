@@ -5,7 +5,6 @@
         "visualstudioexptteam.vscodeintellicode",
         "ms-python.vscode-pylance",
         "github.copilot",
-        "ms-python.black-formatter",
         "charliermarsh.ruff"
     ]
 }

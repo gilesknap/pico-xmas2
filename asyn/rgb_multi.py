@@ -5,6 +5,7 @@ from neopixel import NeoPixel
 
 from pico_utils import faders as fade
 from pico_utils import rgb_colours as rgb
+from pico_utils.rgb_colours import RGB
 
 
 class RgbMulti:
@@ -46,7 +47,7 @@ class RgbMulti:
     def colours(
         self,
         count: int = 0,
-        colour: tuple[int, int, int] = rgb.red,
+        colour: RGB = rgb.red,
     ) -> None:
         """
         Rotate through all RGB colours
@@ -54,7 +55,7 @@ class RgbMulti:
         self._running = True
         self._task = asyncio.create_task(self._colours(colour, count))
 
-    async def _colours(self, colour: tuple[int, int, int], count: int) -> None:
+    async def _colours(self, colour: RGB, count: int) -> None:
         counter = 0
         self._running = True
 
@@ -69,7 +70,7 @@ class RgbMulti:
         self._running = False
         self._task = None
 
-    def colour_fade(self, colour: tuple[int, int, int] = rgb.red):
+    def colour_fade(self, colour: RGB = rgb.red):
         """
         fade the LED through all colours, rotating through the pixels
         and gradually changing colour, leaving a trail of colour behind
@@ -83,7 +84,7 @@ class RgbMulti:
         self._colour = colour
         self._task = asyncio.create_task(self._colour_fade())
 
-    def _render_fade(self, pixels: list[tuple[int, int, int]], start) -> None:
+    def _render_fade(self, pixels: list[RGB], start) -> None:
         # dim all the pixels by 25% and then render them into the
         # NeoPixel list starting at the start index and wrapping around
         for i, pixel in enumerate(pixels):
@@ -95,7 +96,7 @@ class RgbMulti:
     async def _colour_fade(self):
         pixel = 0
         colour = self._colour
-        pixels: list[tuple[int, int, int]] = [rgb.light_off] * self._led_count
+        pixels: list[RGB] = [rgb.light_off] * self._led_count
 
         while self._running:
             next_colour = rgb.next_colour(colour)

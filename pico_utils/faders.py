@@ -1,6 +1,7 @@
 """
 Utilities for fading between colours
 """
+from typing import Tuple
 
 
 def brightness(colour: tuple[int, int, int], factor) -> tuple[int, int, int]:
@@ -37,6 +38,8 @@ def colour_add(
     return tuple([c1 + int(c2 * factor) for c1, c2 in zip(colour1, colour2)])  # type: ignore
 
 
+Direction = Tuple[int, int, int]
+
 # tuples for making ascending and descending ranges for 0-255 with no overlaps
-ascend = (0, 255, 10)
-descend = (255, 0, -10)
+ascend: Direction = (0, 255, 10)
+descend: Direction = (255, 0, -10)

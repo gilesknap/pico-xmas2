@@ -4,7 +4,7 @@ from machine import Pin
 from neopixel import NeoPixel
 
 import pico_utils.grb_colours as grb
-from pico_utils.faders import ascend, brightness, descend
+from pico_utils.faders import Direction, ascend, brightness, descend
 
 
 class RgbLed:
@@ -26,7 +26,7 @@ class RgbLed:
         # period of background task
         self.period_ms = 200
 
-    def set_colour(self, colour: tuple):
+    def set_colour(self, colour: grb.GRB):
         """set the colour of the LED"""
         self._colour = colour
         self.on()
@@ -90,7 +90,7 @@ class RgbLed:
         self.period_ms = period_ms
         self._task = asyncio.create_task(self._fader(direction, colour, count))
 
-    async def _fader(self, direction, colour, count: int):
+    async def _fader(self, direction: Direction, colour: grb.GRB, count: int):
         counter = 0
         self.on()
 

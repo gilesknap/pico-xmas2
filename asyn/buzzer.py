@@ -1,4 +1,5 @@
 import asyncio
+from typing import Callable
 
 from machine import PWM, Pin
 
@@ -24,14 +25,14 @@ class Buzzer:
     G = 784
     Gs = 830
 
-    def __init__(self, pin_num):
+    def __init__(self, pin_num: int):
         """setup the buzzer"""
         self.pin_num = pin_num
         self.buzzer = PWM(Pin(pin_num))
         self.running = False
         self._print = print
 
-    def set_print(self, print):
+    def set_print(self, print: Callable):
         self._print = print
 
     def play_tune(self, tune: list, volume: int = 1000, lyrics=True, repeat: int = 0):

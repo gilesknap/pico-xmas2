@@ -43,12 +43,12 @@ class Led:
             self.off()
 
     @property
-    def brightness(self):
+    def brightness(self) -> int:
         # normalize the brightness to 0-255 like the rest of the LEDs
-        return self._power / 65535 * 255
+        return int(self._power / 65535 * 255)
 
     @brightness.setter
-    def name(self, value):
+    def name(self, value: int):
         self._power = value / 255 * 65535
         # if the LED is already on then change the brightness
         if self._pwm.duty_u16(0) > 0:

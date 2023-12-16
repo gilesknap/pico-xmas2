@@ -23,7 +23,7 @@ First you need to wire all your components together. I used a couple of extras:
 
 Here is a wiring diagram:
 
-![Wiring Diagram](board/layout.jpg)
+![Wiring Diagram](board/Advent2023.excalidraw.svg)
 
 And here is a picture of the setup to help interpret the above:
 

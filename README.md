@@ -10,7 +10,7 @@ See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-gu
 
 Click the image below for a video of the final version of the project.
 
-[![image](https://github.com/gilesknap/pico-xmas2/assets/964827/2cc1b1c8-6536-4c89-ae70-3180e0974a34)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
+[![image](https://photos.google.com/share/AF1QipOKM4df4whVsKS-_wMHOkxQnXSTlYW0TbV-q1ZVhQqGu7bcyeW8Hhg_G9L7fYVcnA/photo/AF1QipPBvRdftksy1RDZYpTw3xyxrsysfLA5K6VFgEAF?key=YUdYWXNHLWRZNWNHREllWHBSOXFuakdsNlVwVFFR)](https://photos.app.goo.gl/Pukf7e8uYN1kK16x9 "Let It Glow Advent Calenar")
 
 ## Setup
 
@@ -24,10 +24,6 @@ First you need to wire all your components together. I used a couple of extras:
 Here is a wiring diagram:
 
 ![Wiring Diagram](board/Advent2023.excalidraw.svg)
-
-And here is a picture of the setup to help interpret the above:
-
-![image](https://github.com/gilesknap/pico-xmas2/assets/964827/8c77d835-c7dc-4d6f-b013-b9dfe5ffd60e)
 
 ## What the Code can do
 

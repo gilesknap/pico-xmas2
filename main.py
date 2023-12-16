@@ -61,7 +61,7 @@ async def main():
 
     while True:
         modes_str = " ".join([f"{i}:{m.description}" for i, m in enumerate(modes)])
-        msg = f"-->  Modes: {modes_str} "
+        msg = f"-->  DIP select: {modes_str} "
 
         display.lcd_print(msg, 0)
         display.lcd_print("Green to Start", 1)
@@ -70,7 +70,7 @@ async def main():
         await green_button().wait_for_press()
 
         display.lcd_print("Running... ", 0)
-        display.lcd_print("Red to Stop", 1)
+        display.lcd_print("Red Stop. Fast->", 1)
 
         # get the mode from the DIP switches
         mode = dips.value

@@ -1,5 +1,7 @@
 import asyncio
 
+from asyn.led import Led
+
 
 class Segmented:
     """
@@ -11,7 +13,7 @@ class Segmented:
     Background counting is supported.
     """
 
-    def __init__(self, led_segments):
+    def __init__(self, led_segments: list[Led]):
         self._led_segments = led_segments
         # prepare a list of tuples to represent binary 00000 to 11111
         self._bit_mask = []
@@ -30,7 +32,7 @@ class Segmented:
         # current value
         self.value = 0
 
-    def set_value(self, value):
+    def set_value(self, value: int):
         """set the value of the display"""
         self.value = value
         self.display()
@@ -43,7 +45,7 @@ class Segmented:
         for i in range(5):
             self._led_segments[i].enable(mask[i])
 
-    async def _counter(self, repeats):
+    async def _counter(self, repeats: int):
         count = 0
         self.running = True
         while self.running:

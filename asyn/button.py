@@ -67,7 +67,7 @@ class Button:
             await asyncio.sleep(0.05)
 
     @staticmethod
-    def print_state(button):
+    def print_state(button: "Button"):
         """print the state of the button"""
         print(button)
 

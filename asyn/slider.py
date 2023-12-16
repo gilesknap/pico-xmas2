@@ -1,4 +1,5 @@
 import asyncio
+from typing import Callable
 
 from machine import ADC, Pin
 
@@ -22,12 +23,12 @@ class Slider:
     def value(self):
         """return the current value of the slider"""
         value = self.adc.read_u16() / 65535
-        if value < 0.01:
+        if value < 0.02:
             # get around MicroPython issue with rounding
             return 0
         return round(value, 2)
 
-    async def less_than(self, value: int, hook):
+    async def less_than(self, value: int, hook: Callable):
         """
         async monitoring value until it is less than the argument value
         """
@@ -44,9 +45,9 @@ class Slider:
         hook(self)
 
     @staticmethod
-    def print_state(button):
+    def print_state(slider: "Slider"):
         """print the state of the slider"""
-        print(button)
+        print(slider)
 
     def __repr__(self):
         """return a string representation of the slider"""

@@ -6,7 +6,7 @@ Calendar 2023.
 This one project endeavours to include all of the components from the
 2023 PiHut XMas Advent Calendar.
 
-See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)
+See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides) for PiHut's guides for day.
 
 Click the image below for a video of the final version of the project.
 
@@ -16,16 +16,21 @@ Click the image below for a video of the final version of the project.
 
 ### Wire up your board
 
-First you need to wire all your components together. I used a couple of extras:
+First you need to wire all your components together. I used a few extras:
 
 - an extra breadboard from last years calendar, this is required as there is
   not enough room otherwise. You can buy these for a few pounds in the UK.
 - the piezoelectric buzzer from the 2022 calendar, this is not required but
   but it allows you to play a christmas tune while viewing the lights.
+- I substituted in a wire kit from Amazon for the jumper wires that
+  came with the calendar. This is not essential but makes the project
+  tidier and the circuits easier to follow.
+
+See the [below](#purchase-the-parts) to obtain the parts.
 
 When wiring up the board it may help to refer back to the PiHut guides for each
 component as they describe what each pin does, etc.
-See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)
+See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)See the below to obtain the parts.
 
 Here is the wiring diagram:
 
@@ -166,3 +171,58 @@ If you have any questions or problems please raise an issue here
 
 The above link is also a good place to add any suggestions for improvements or
 new modes you can think of.
+
+## Purchase the parts
+
+I did not use the jumper wires that came with the calendar because they don't
+scale well to a more complex project like this. I bought a little jumper wire
+kit from Amazon for a few pounds.
+[This is the one I bought](https://www.amazon.co.uk/dp/B08PF2W1RF?psc=1&ref=ppx_yo2ov_dt_b_product_details)
+
+If you want to buy one of the calendars with all the parts then you can get it here (I don't know if they sell all year round?):
+[PiHut XMas Advent Calendar 2023](https://thepihut.com/products/maker-advent-calendar-let-it-glow-inc-raspberry-pi-pico-h)
+
+Alternatively you might be able to buy the parts individually from the PiHut
+and other suppliers. This is PiHut's list of parts (sorry no part numbers):
+
+- Day 1
+   - 1x Raspberry Pi Pico H
+   - **3x** Half-size breadboard (one extra)
+   - 1x Micro-USB Cable
+- Day 2
+   - 1x Diffused red 15mm block LED
+   - 1x 100 ohm resistor
+   - 2x Male-to-male jumper wires
+- Day 3
+   - 2x 12mm Square Tactile Buttons
+   - 2x Colourful Button caps
+   - 5x Male-to-male jumper wires
+- Day 4
+   - 1x 5-segment Bar Graph display
+   - 1x Network resistor
+   - 6x Male-to-male jumper wires
+- Day 5
+   - 1x 5-way DIP switch
+   - 5x Male-to-male jumper wires
+- Day 6
+   - 2x 10mm Addressable RGB LEDs
+   - 6x Male-to-male jumper wires
+- Day 7
+   - 1x 45mm Slide potentiometer
+   - 3x Male-to-male jumper wires
+- Day 8
+   - 1x 12-LED Addressable RGB LED Ring with pre-soldered headers
+   - 3x Male-to-male jumper wires
+- Day 9
+   - 1x DHT20/AHT20 I2C Temperature & humidity sensor
+   - 4x Male-to-male jumper wires
+   - Day 10
+   - 1x Dot strand addressable LED string lights (~15 LED) with jumper wire headers
+- Day 11
+   - ~~1x Membrane keypad (1x4)~~ (not used)
+   - 1x 5-pin extra-long pin header
+   - 5x Male-to-male jumper wires
+- Day 12
+   - 1x 16x2 LCD Display with I2C backpack (pre-soldered)
+   - 4x Male-to-female jumper wires
+

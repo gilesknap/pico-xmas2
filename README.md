@@ -66,7 +66,7 @@ reboot.
 
 ### If you are not on Windows
 
-**Linux users** will need to add their user to the dialout group to get access to
+**Linux Users** will need to add their user to the dialout group to get access to
 the USB serial port that the PICO uses to communicate with the host. This is
 done using the following command:
 
@@ -75,13 +75,15 @@ sudo adduser <your_user_name> dialout
 # now reboot your PC (logout is not enough)
 ```
 
-I'm pretty sure **Windows users** don't need to do anything special. **MacOS USers**
-may also need to set the dialout group membership.
+I'm pretty sure **Windows Users** don't need to do anything special.
+**MacOS Users** may also need to set the dialout group membership.
 
 ### Get the project onto your pico
 
 Now we want to get the project onto your pico. To do this we need to clone the
-project from GitHub, open it in vscode and then upload it to the pico. Note
+project from GitHub, open it in vscode and then upload it to the pico.
+
+Note
 that I use vscode to get the initial terminal window, this is because it
 provides the most consistent experience across platforms - but you can use
 your favourite terminal if you prefer for the first steps.
@@ -105,7 +107,7 @@ Follow these steps:
 1. You should see a message towards the left of the bottom status bar saying
    "Pico connected"
 1. Upload the whole project to the Pico by right clicking in the file explorer
-   pane (to the left of vscdoe window) and selecting "Upload project to Pico".
+   pane (to the left of vscode window) and selecting "Upload project to Pico".
 1. Select the "main.py" file which is the entry point for the project.
 1. Chose the "Run" command on the status bar at the bottom of the window.
 

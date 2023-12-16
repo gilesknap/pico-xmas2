@@ -20,17 +20,17 @@ First you need to wire all your components together. I used a few extras:
 
 - an extra breadboard from last years calendar, this is required as there is
   not enough room otherwise. You can buy these for a few pounds in the UK.
-- the piezoelectric buzzer from the 2022 calendar, this is not required but
+- the piezoelectric buzzer from the 2022 calendar, this is not required
   but it allows you to play a christmas tune while viewing the lights.
 - I substituted in a wire kit from Amazon for the jumper wires that
   came with the calendar. This is not essential but makes the project
   tidier and the circuits easier to follow.
 
-See the [below](#purchase-the-parts) to obtain the parts.
+See [below](#purchase-the-parts) to obtain the parts.
 
 When wiring up the board it may help to refer back to the PiHut guides for each
 component as they describe what each pin does, etc.
-See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)See the below to obtain the parts.
+See [PiHut Calendar 2023 Guides](https://thepihut.com/pages/maker-advent-2023-guides)
 
 Here is the wiring diagram:
 

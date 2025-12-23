@@ -5,95 +5,76 @@ Docstring for pico-send
 import time
 
 import pyudev
-import usb.core
-import usb.util
+import serial
+import serial.tools.list_ports
+
+
+def check_for_pico():
+    # Check if a pico is connected
+    ports = serial.tools.list_ports.comports()
+    for port in ports:
+        if port.vid == 0x2E8A and port.pid == 0x0005:
+            return port.device
+    return None
 
 
 def wait_for_device():
     """
     Wait for a Raspberry Pi Pico device to be connected using udev events.
-    Returns the USB device when found.
+    Returns the serial port path when found.
     """
     # Check if device is already connected
-    dev = usb.core.find(idVendor=0x2E8A, idProduct=0x0005)
-    if dev is not None:
-        return dev
+    device = check_for_pico()
 
-    print("Waiting for device to be connected...")
+    while not device:
+        print("Waiting for device to be connected...")
 
-    # Set up udev monitoring
-    context = pyudev.Context()
-    monitor = pyudev.Monitor.from_netlink(context)
-    monitor.filter_by(subsystem="usb")
+        # Set up udev monitoring
+        context = pyudev.Context()
+        monitor = pyudev.Monitor.from_netlink(context)
+        monitor.filter_by(subsystem="tty")
 
-    # Wait for device connection events
-    for action, device in monitor:
-        if action == "add":
-            # Check if the newly added device matches our criteria
-            dev = usb.core.find(idVendor=0x2E8A, idProduct=0x0005)
-            if dev is not None:
-                return dev
+        # Wait for device connection events
+        for action, device in monitor:
+            if action == "add":
+                device = check_for_pico()
+
+    return device
 
 
 def main():
     """
     A function that waits for a raspi pico device 2e8a:0005 to be connected via USB
-    and sends "hello pico" to it via the device it is mounted as.
+    and sends "hello pico" to it via the serial port.
     """
-    dev = wait_for_device()
-    print("Device found!")
+    port_path = wait_for_device()
+    print(f"Device found on {port_path}!")
 
-    # set the active configuration. With no arguments, the first configuration will be the active one
-    dev.set_configuration()
+    # Open serial connection
+    try:
+        ser = serial.Serial(port_path, baudrate=115200, timeout=1)
+        time.sleep(2)  # Give the device time to initialize
 
-    # get an endpoint instance
-    cfg = dev.get_active_configuration()
-    intf = cfg[(0, 0)]
+        # Clear any pending data
+        ser.reset_input_buffer()
+        ser.reset_output_buffer()
 
-    ep = usb.util.find_descriptor(
-        intf,
-        # match the first OUT endpoint
-        custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress)
-        == usb.util.ENDPOINT_OUT,
-    )
+        # Send the message
+        msg = b"hello pico\n"
+        ser.write(msg)
+        print(f"Sent message: {msg.decode().strip()}")
 
-    if ep is None:
-        print("Error: Could not find OUT endpoint")
-        print(f"Available endpoints in interface:")
-        for endpoint in intf:
-            print(
-                f"  Address: 0x{endpoint.bEndpointAddress:02x}, Direction: {usb.util.endpoint_direction(endpoint.bEndpointAddress)}"
-            )
+        # Wait for and read response if any
+        time.sleep(0.5)
+        if ser.in_waiting > 0:
+            response = ser.read(ser.in_waiting)
+            print(f"Response: {response.decode(errors='ignore').strip()}")
+
+        ser.close()
+
+    except serial.SerialException as e:
+        print(f"Error opening serial port: {e}")
         return
-
-    # Detach kernel driver if it's active
-    interface = 0
-    if dev.is_kernel_driver_active(interface):
-        print("Detaching kernel driver...")
-        dev.detach_kernel_driver(interface)
-
-    # Wait for device to be ready
-    print("Waiting for device to be ready...")
-    max_retries = 10
-    for i in range(max_retries):
-        try:
-            # Try to get device status - if it succeeds, device is ready
-            dev.is_kernel_driver_active(0)
-            time.sleep(0.5)
-            break
-        except usb.core.USBError:
-            time.sleep(0.5)
-            if i == max_retries - 1:
-                print("Device not ready after maximum retries")
-                return
-
-    # write the data
-    msg = b"hello pico\n"
-    ep.write(msg)
-    print(f"Sent message: {msg.decode().strip()}")
-
-    # give the device some time to process
-    time.sleep(1)
 
 
 if __name__ == "__main__":

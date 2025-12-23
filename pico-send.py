@@ -26,7 +26,7 @@ def wait_for_device():
     # Check if device is already connected
     device = check_for_pico()
 
-    while not device:
+    while device is None:
         print("Waiting for device to be connected...")
 
         # Set up udev monitoring
@@ -37,7 +37,11 @@ def wait_for_device():
         # Wait for device connection events
         for action, device in monitor:
             if action == "add":
+                print(f"Device added: {device.device_node}")
+                time.sleep(1)  # Give the system a moment to register the device
                 device = check_for_pico()
+                if device is not None:
+                    break
 
     return device
 

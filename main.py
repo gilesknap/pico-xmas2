@@ -1,98 +1,33 @@
 import asyncio
+import select
+import sys
 
-# repetition - could get a bit more clever with module manipulation here
-import modes.mode0 as mode0
-import modes.mode1 as mode1
-import modes.mode2 as mode2
-import modes.mode3 as mode3
-from hardware.inputs import dips, environment, green_button, red_button, slider
-from hardware.outputs import (
-    big_red_led,
-    buzzer,
-    display,
-    rgb_led1,
-    rgb_led2,
-    rgb_ring,
-    rgb_strand,
-    segmented,
-)
+from hardware.outputs import display
 
-modes = [mode0, mode1, mode2, mode3]
-
-# list all outputs we want to control in stop and poll functions
-outputs = [rgb_led1, rgb_led2, rgb_ring, rgb_strand, segmented, buzzer]
-
-# global to track if the program is running
-running = True
-
-
-def stop(_):
-    global running
-    for output in outputs:
-        # using duck typing here - really ought to create a class hierarchy!
-        output.stop()
-    running = False
-
-
-# global poll function - default poll behaviour for most modes
-# updates the interval from the slider
-def poll():
-    val = int(slider.value * 250)
-    for output in outputs:
-        # duck typing again
-        output.period_ms = val
-    return val
-
-
-# arrays of go, poll and stop functions for each mode]
-gos = [mode0.go, mode1.go, mode2.go, mode3.go]
-polls = [poll, poll, poll, poll]
-stops = [stop, stop, stop, stop]
+# Set up the poll object
+poll_obj = select.poll()
+poll_obj.register(sys.stdin, select.POLLIN)
 
 
 async def main():
-    # use the global running variable to terminate the program
-    global running
-
-    # set up a heartbeat to show the code is running - same for all modes
-    big_red_led.blink(500)
-
-    buzzer.set_print(display.lcd_print)
+    display.lcd_print("Await input ... ", 0)
+    await asyncio.sleep(1)
 
     while True:
-        modes_str = " ".join([f"{i}:{m.description}" for i, m in enumerate(modes)])
-        msg = f"-->  DIP select: {modes_str} "
-
-        display.lcd_print(msg, 0)
-        display.lcd_print("Green to Start", 1)
-
-        # wait for the green button to be pressed to start the program
-        await green_button().wait_for_press()
-
-        display.lcd_print("Running... ", 0)
-        display.lcd_print("Red Stop. Fast->", 1)
-
-        # get the mode from the DIP switches
-        mode = dips.value
-
-        if mode >= len(gos):
-            print(f"\n ERROR: Please set dip switches between 0 and {len(gos) - 1}")
-            # go back to start of while loop
-            continue
+        # Wait for input on stdin, waiting for 100 ms
+        poll_results = poll_obj.poll(100)
+        if poll_results:
+            # Read the data from stdin (read data coming from PC)
+            data = sys.stdin.readline().strip()
+            # Write the data to the input file
+            sys.stdout.write("received data: " + data + "\r")
+            if len(data) > 0:
+                display.lcd_print(data, 1)
         else:
-            print(f"\nStarting mode {mode}: {modes[mode].description}")
+            # do something if no message received (like feed a watchdog timer)
+            continue
 
-        running = True
-        gos[mode]()
-
-        # set the red button to stop the program
-        red_button(callback=stops[mode])
-
-        environment.measurements()
-
-        while running:
-            polls[mode]()
-            await asyncio.sleep(0.1)
+        await asyncio.sleep(1)
 
 
 asyncio.run(main())

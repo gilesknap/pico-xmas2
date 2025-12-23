@@ -1,0 +1,9 @@
+# Raspberry Pi Pico udev rules
+# This allows non-root users to access the Raspberry Pi Pico device
+
+# Raspberry Pi Pico (CDC/Serial mode - MicroPython/CircuitPython)
+SUBSYSTEM=="usb", ATTR{idVendor}=="2e8a", ATTR{idProduct}=="0005", MODE="0666", GROUP="plugdev"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="0005", MODE="0666", GROUP="plugdev"
+
+# Raspberry Pi Pico (Mass Storage mode - BOOTSEL)
+SUBSYSTEM=="usb", ATTR{idVendor}=="2e8a", ATTR{idProduct}=="0003", MODE="0666", GROUP="plugdev"

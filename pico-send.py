@@ -43,12 +43,6 @@ def main():
     dev = wait_for_device()
     print("Device found!")
 
-    # # Detach kernel driver if it's active
-    # interface = 0
-    # if dev.is_kernel_driver_active(interface):
-    #     print("Detaching kernel driver...")
-    #     dev.detach_kernel_driver(interface)
-
     # set the active configuration. With no arguments, the first configuration will be the active one
     dev.set_configuration()
 
@@ -71,6 +65,12 @@ def main():
                 f"  Address: 0x{endpoint.bEndpointAddress:02x}, Direction: {usb.util.endpoint_direction(endpoint.bEndpointAddress)}"
             )
         return
+
+    # Detach kernel driver if it's active
+    interface = 0
+    if dev.is_kernel_driver_active(interface):
+        print("Detaching kernel driver...")
+        dev.detach_kernel_driver(interface)
 
     # Wait for device to be ready
     print("Waiting for device to be ready...")

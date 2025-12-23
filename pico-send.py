@@ -1,8 +1,8 @@
 """
-Docstring for pico-send
+A script to send the MAC address of the host machine to a connected Raspberry
+Pi Pico device via USB serial communication. The script waits for the device to
+be connected and sends the message once connected.
 """
-
-import time
 
 import pyudev
 import serial
@@ -10,6 +10,16 @@ import serial.tools.list_ports
 
 pico_vid = 0x2E8A  # Raspberry Pi Pico Vendor ID
 pico_pid = 0x0005  # Pico with MicroPython firmware
+
+
+def get_mac_address() -> str:
+    import uuid
+
+    mac = uuid.getnode()
+    mac_str = ":".join(
+        ["{:02x}".format((mac >> ele) & 0xFF) for ele in range(0, 8 * 6, 8)][::-1]
+    )
+    return mac_str
 
 
 def check_for_pico():
@@ -68,7 +78,7 @@ def main():
     A function that waits for a raspi pico device 2e8a:0005 to be connected via USB
     and sends "hello pico" to it via the serial port.
     """
-    msg = "hello pico\n"
+    msg = (get_mac_address() + "\n").replace(":", "")
 
     port_path = check_for_pico()
     if port_path is not None:

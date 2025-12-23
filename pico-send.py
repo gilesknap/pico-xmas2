@@ -76,7 +76,7 @@ def send_message(port_path: str, message: str):
 def main():
     """
     A function that waits for a raspi pico device 2e8a:0005 to be connected via USB
-    and sends "hello pico" to it via the serial port.
+    and sends the current MAC address to it via the serial port.
     """
     msg = (get_mac_address() + "\n").replace(":", "")
 
